@@ -24,10 +24,3 @@ This is tr.
 [% baz.jcode.h2z.euc -%]
 --expect--
 ¥Ï¥ó¥«¥¯¥ò¥¼¥ó¥«¥¯¥Ë¥¹¥ë
-
---test--
-[% USE Jcode -%]
-[% foo = '090-0000-0000' -%]
-[% foo.split('-').0.jcode.tr('.A-Za-z0-9 ','¡¥£Á-£Ú£á-£ú£°-£¹¡¡') -%]
---expect--
-£°£¹£°

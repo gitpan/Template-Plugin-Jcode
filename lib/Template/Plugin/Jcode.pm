@@ -6,7 +6,7 @@ use Template::Plugin;
 use Template::Stash;
 use Jcode;
 use vars qw($VERSION $AUTOLOAD);
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 $Template::Stash::SCALAR_OPS->{ jcode } = sub {
     my $str = shift;
@@ -26,9 +26,9 @@ sub AUTOLOAD {
     return if $method eq 'DESTROY';
 
     my $jcode = Jcode->new($self->{string});
-    $self->_throw("no such Jcode method: $method")
-	unless $jcode;
-    $jcode->$method(@_);
+    return $self->_throw("no such Jcode method: $method")
+	unless UNIVERSAL::can($jcode, $method);
+    return $jcode->$method(@_);
 }
 
 sub _throw {
@@ -41,7 +41,7 @@ __END__
 
 =head1 NAME
 
-Template::Plugin::Jcode - TT plugin supply Jcode methods
+Template::Plugin::Jcode - TT plugin using Jcode methods as virtual method
 
 =head1 SYNOPSIS
 
@@ -57,12 +57,12 @@ Template::Plugin::Jcode - TT plugin supply Jcode methods
 
 =head1 DESCRIPTION
 
-Template::Plugin::Jcode is plugin for TT, which supply Jcode methods
-as virtual methods of TT.
+Template::Plugin::Jcode is plugin for TT, which can use Jcode methods
+as virtual method.
 
 =head1 AUTHOR
 
-Yoshiku KURIHARA E<lt>kurihara@cpan.orgE<gt>
+Yoshiki KURIHARA E<lt>kurihara@cpan.orgE<gt>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
